@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ide_background">#1E1E1E</color>
-    <color name="ide_panel">#252526</color>
-    <color name="ide_toolbar">#2D2D30</color>
-    <color name="ide_text">#CCCCCC</color>
-    <color name="ide_text_bright">#FFFFFF</color>
-    <color name="ide_accent">#007ACC</color>
-    <color name="ide_success">#4CAF50</color>
-    <color name="console_bg">#0C0C0C</color>
-    <color name="console_text">#00FF00</color>
+    <!-- Modern Color Palette -->
+    <color name="modern_bg">#F8FAFC</color>
+    <color name="card_bg">#FFFFFF</color>
+    <color name="editor_bg">#1E1E1E</color>
+    <color name="console_bg">#0D1117</color>
+    
+    <!-- Accent Colors -->
+    <color name="accent_blue">#3B82F6</color>
+    <color name="accent_purple">#8B5CF6</color>
+    <color name="success_green">#10B981</color>
+    <color name="warning_orange">#F59E0B</color>
+    <color name="error_red">#EF4444</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#1F2937</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="text_light">#9CA3AF</color>
+    <color name="console_text">#00D9FF</color>
+    
+    <!-- Gradients -->
+    <color name="gradient_start">#667EEA</color>
+    <color name="gradient_end">#764BA2</color>
+    <color name="header_gradient_start">#4F46E5</color>
+    <color name="header_gradient_end">#7C3AED</color>
+    
+    <!-- Legacy colors for compatibility -->
+    <color name="ide_background">#F8FAFC</color>
+    <color name="ide_panel">#FFFFFF</color>
+    <color name="ide_toolbar">#4F46E5</color>
+    <color name="ide_text">#6B7280</color>
+    <color name="ide_text_bright">#1F2937</color>
+    <color name="ide_accent">#3B82F6</color>
+    <color name="ide_success">#10B981</color>
 </resources>

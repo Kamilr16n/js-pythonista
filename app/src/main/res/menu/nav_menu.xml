@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_new_project"
+            android:icon="@drawable/ic_folder_new"
+            android:title="New Project" />
+        
+        <item
+            android:id="@+id/nav_open_project"
+            android:icon="@drawable/ic_folder_open"
+            android:title="Open Project" />
+        
+        <item
+            android:id="@+id/nav_examples"
+            android:icon="@drawable/ic_library"
+            android:title="Examples" />
+    </group>
+    
+    <item android:title="Tools">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_modern"
+                android:title="Settings" />
+            
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_info"
+                android:title="About" />
+        </menu>
+    </item>
+    
+</menu>

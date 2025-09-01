@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="40dp"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:background="@drawable/tab_unselected_bg"
-    android:paddingHorizontal="12dp"
-    android:paddingVertical="8dp">
+    android:layout_height="36dp"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/accent_blue"
+    android:foreground="?android:attr/selectableItemBackground">
 
-    <TextView
-        android:id="@+id/tabIcon"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:text="📄"
-        android:textSize="12sp"
-        android:gravity="center" />
-
-    <TextView
-        android:id="@+id/tabName"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:text="file.js"
-        android:textColor="@color/ide_text_bright"
-        android:textSize="13sp"
-        android:maxWidth="120dp"
-        android:singleLine="true"
-        android:ellipsize="end" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp">
 
-    <ImageButton
-        android:id="@+id/btnCloseTab"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="8dp"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:tint="@color/ide_text"
-        android:contentDescription="Close Tab" />
+        <TextView
+            android:id="@+id/tabIcon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:text="📄"
+            android:textSize="12sp"
+            android:gravity="center" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tabName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="file.js"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:maxWidth="100dp"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <ImageButton
+            android:id="@+id/btnCloseTab"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/ripple_circle"
+            android:src="@drawable/ic_close_small"
+            android:tint="@android:color/white"
+            android:contentDescription="Close Tab" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
