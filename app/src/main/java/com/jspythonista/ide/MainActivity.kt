@@ -3,13 +3,13 @@ package com.jspythonista.ide
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
+import android.view.View
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
 import java.io.File
 
 class MainActivity : Activity() {
@@ -51,21 +51,64 @@ class MainActivity : Activity() {
         codeEditor.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
-            allowFileAccess = true
         }
         
         codeEditor.addJavascriptInterface(EditorInterface(), "Android")
         codeEditor.webViewClient = WebViewClient()
         
-        // Load CodeMirror editor
-        val editorHtml = createEditorHTML()
+        // Load simple editor
+        val editorHtml = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body { 
+                        margin: 0; 
+                        padding: 0; 
+                        background: #1e1e1e; 
+                        color: #d4d4d4;
+                        font-family: 'Consolas', monospace;
+                    }
+                    textarea { 
+                        width: 100%; 
+                        height: 100vh; 
+                        background: #1e1e1e; 
+                        color: #d4d4d4; 
+                        border: none; 
+                        padding: 10px;
+                        font-family: 'Consolas', monospace;
+                        font-size: 14px;
+                        resize: none;
+                        outline: none;
+                    }
+                </style>
+            </head>
+            <body>
+                <textarea id="editor" placeholder="// Welcome to JS Pythonista!
+// Write JavaScript, TypeScript, or React code here
+
+console.log('Hello, World!');">// Welcome to JS Pythonista!
+// Write JavaScript, TypeScript, or React code here
+
+console.log('Hello, World!');</textarea>
+                <script>
+                    function setEditorContent(content) {
+                        document.getElementById('editor').value = content;
+                    }
+                    
+                    function getEditorContent() {
+                        return document.getElementById('editor').value;
+                    }
+                </script>
+            </body>
+            </html>
+        """.trimIndent()
+        
         codeEditor.loadDataWithBaseURL("file:///android_asset/", editorHtml, "text/html", "UTF-8", null)
         
         // Setup preview WebView
-        previewWebView.settings.apply {
-            javaScriptEnabled = true
-            domStorageEnabled = true
-        }
+        previewWebView.settings.javaScriptEnabled = true
     }
     
     private fun setupFileSystem() {
@@ -77,111 +120,57 @@ class MainActivity : Activity() {
     private fun createDefaultProject() {
         projectDir.mkdirs()
         
-        // Create sample files if they don't exist
+        // Create sample React component
         val appJs = File(projectDir, "App.js")
         if (!appJs.exists()) {
             appJs.writeText("""
 // React Component Example
 function App() {
     const [count, setCount] = React.useState(0);
-    const [message, setMessage] = React.useState('Hello React!');
     
     return React.createElement('div', {
         style: { 
             padding: '20px', 
             fontFamily: 'Arial, sans-serif',
-            maxWidth: '400px',
-            margin: '0 auto',
             textAlign: 'center'
         }
     }, [
-        React.createElement('h1', { key: 'title' }, message),
-        React.createElement('div', { 
-            key: 'counter',
-            style: { 
-                padding: '20px', 
-                background: '#f0f0f0', 
-                borderRadius: '8px',
-                margin: '20px 0'
-            }
-        }, [
-            React.createElement('p', { key: 'count' }, `Counter: ${'$'}{count}`),
-            React.createElement('button', {
-                key: 'btn',
-                onClick: () => setCount(count + 1),
-                style: {
-                    padding: '10px 20px',
-                    background: '#007acc',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    marginRight: '10px'
-                }
-            }, 'Increment'),
-            React.createElement('button', {
-                key: 'reset',
-                onClick: () => setCount(0),
-                style: {
-                    padding: '10px 20px',
-                    background: '#666',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                }
-            }, 'Reset')
-        ]),
-        React.createElement('input', {
-            key: 'input',
-            type: 'text',
-            value: message,
-            onChange: (e) => setMessage(e.target.value),
-            placeholder: 'Edit message...',
+        React.createElement('h1', { key: 'title' }, 'Hello React!'),
+        React.createElement('p', { key: 'count' }, 'Counter: ' + count),
+        React.createElement('button', {
+            key: 'btn',
+            onClick: () => setCount(count + 1),
             style: {
-                width: '100%',
-                padding: '10px',
-                border: '1px solid #ddd',
-                borderRadius: '4px',
-                fontSize: '16px',
-                marginTop: '10px'
+                padding: '10px 20px',
+                background: '#007acc',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px'
             }
-        })
+        }, 'Click me!')
     ]);
 }
 
-// Render the component
 ReactDOM.render(React.createElement(App), document.getElementById('root'));
             """.trimIndent())
         }
         
+        // Create utility file
         val utilsJs = File(projectDir, "utils.js")
         if (!utilsJs.exists()) {
             utilsJs.writeText("""
 // Utility Functions
-function formatDate(date) {
-    return new Date(date).toLocaleDateString();
+function greet(name) {
+    return 'Hello, ' + name + '!';
 }
 
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
+function add(a, b) {
+    return a + b;
 }
 
-function fetchData(url) {
-    return fetch(url)
-        .then(response => response.json())
-        .catch(error => console.error('Error:', error));
-}
-
-console.log('Utils loaded successfully!');
+console.log('Utils loaded!');
+console.log(greet('World'));
+console.log('2 + 3 =', add(2, 3));
             """.trimIndent())
         }
         
@@ -196,7 +185,7 @@ console.log('Utils loaded successfully!');
     private fun openFile(file: File) {
         currentFile = file
         val content = file.readText()
-        codeEditor.evaluateJavascript("setEditorContent(`${'$'}{content.replace("`", "\\`")}`)", null)
+        codeEditor.evaluateJavascript("setEditorContent(`${content.replace("`", "\\`")}`)", null)
         addConsoleOutput("Opened: ${file.name}")
     }
     
@@ -217,13 +206,10 @@ console.log('Utils loaded successfully!');
                 addConsoleOutput("Saved: ${file.name}")
             }
             
-            when {
-                code.contains("React.createElement") || code.contains("ReactDOM") -> {
-                    runReactCode(code)
-                }
-                else -> {
-                    runJavaScript(code)
-                }
+            if (code.contains("React.createElement") || code.contains("ReactDOM")) {
+                runReactCode(code)
+            } else {
+                runJavaScript(code)
             }
         }
     }
@@ -234,16 +220,10 @@ console.log('Utils loaded successfully!');
             <html>
             <head>
                 <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
                 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
                 <style>
-                    body { 
-                        margin: 0; 
-                        padding: 20px; 
-                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-                    }
-                    #root { min-height: 100vh; }
+                    body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
                 </style>
             </head>
             <body>
@@ -253,8 +233,7 @@ console.log('Utils loaded successfully!');
                         $code
                     } catch (error) {
                         document.getElementById('root').innerHTML = 
-                            '<div style="color: red; padding: 20px; border: 1px solid red; border-radius: 4px;">' +
-                            '<h3>Error:</h3><pre>' + error.message + '</pre></div>';
+                            '<div style="color: red; padding: 20px;">Error: ' + error.message + '</div>';
                     }
                 </script>
             </body>
@@ -263,7 +242,7 @@ console.log('Utils loaded successfully!');
         
         previewWebView.loadDataWithBaseURL("https://localhost/", reactHTML, "text/html", "UTF-8", null)
         showPreview()
-        addConsoleOutput("✓ React component rendered in preview")
+        addConsoleOutput("✓ React component rendered")
     }
     
     private fun runJavaScript(code: String) {
@@ -273,18 +252,8 @@ console.log('Utils loaded successfully!');
             <head>
                 <meta charset="UTF-8">
                 <style>
-                    body { 
-                        margin: 0; 
-                        padding: 20px; 
-                        font-family: monospace;
-                        background: #f5f5f5;
-                    }
-                    #output { 
-                        background: white; 
-                        padding: 20px; 
-                        border-radius: 4px;
-                        white-space: pre-wrap;
-                    }
+                    body { margin: 0; padding: 20px; font-family: monospace; background: #f5f5f5; }
+                    #output { background: white; padding: 20px; border-radius: 4px; white-space: pre-wrap; }
                 </style>
             </head>
             <body>
@@ -295,7 +264,6 @@ console.log('Utils loaded successfully!');
                     
                     console.log = function(...args) {
                         output.innerHTML += args.join(' ') + '\\n';
-                        originalLog.apply(console, args);
                     };
                     
                     try {
@@ -314,75 +282,20 @@ console.log('Utils loaded successfully!');
     }
     
     private fun showConsole() {
-        findViewById<ScrollView>(R.id.consoleContainer).visibility = android.view.View.VISIBLE
-        previewWebView.visibility = android.view.View.GONE
+        findViewById<ScrollView>(R.id.consoleContainer).visibility = View.VISIBLE
+        previewWebView.visibility = View.GONE
     }
     
     private fun showPreview() {
-        findViewById<ScrollView>(R.id.consoleContainer).visibility = android.view.View.GONE
-        previewWebView.visibility = android.view.View.VISIBLE
+        findViewById<ScrollView>(R.id.consoleContainer).visibility = View.GONE
+        previewWebView.visibility = View.VISIBLE
     }
     
     private fun addConsoleOutput(message: String) {
         runOnUiThread {
             val timestamp = java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault()).format(java.util.Date())
             consoleOutput.append("[$timestamp] $message\n")
-            
-            // Auto-scroll to bottom
-            findViewById<ScrollView>(R.id.consoleContainer).post {
-                findViewById<ScrollView>(R.id.consoleContainer).fullScroll(android.view.View.FOCUS_DOWN)
-            }
         }
-    }
-    
-    private fun createEditorHTML(): String {
-        return """
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
-                <style>
-                    body { margin: 0; padding: 0; }
-                    .CodeMirror { 
-                        height: 100vh; 
-                        font-size: 14px;
-                        font-family: 'Consolas', 'Monaco', monospace;
-                    }
-                </style>
-            </head>
-            <body>
-                <textarea id="editor"></textarea>
-                <script>
-                    const editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
-                        mode: 'javascript',
-                        theme: 'monokai',
-                        lineNumbers: true,
-                        autoCloseBrackets: true,
-                        matchBrackets: true,
-                        indentUnit: 2,
-                        tabSize: 2,
-                        lineWrapping: true
-                    });
-                    
-                    function setEditorContent(content) {
-                        editor.setValue(content);
-                    }
-                    
-                    function getEditorContent() {
-                        return editor.getValue();
-                    }
-                    
-                    // Set initial content
-                    editor.setValue('// Welcome to JS Pythonista!\\n// Write JavaScript, TypeScript, or React code here\\n\\nconsole.log("Hello, World!");');
-                </script>
-            </body>
-            </html>
-        """.trimIndent()
     }
     
     inner class EditorInterface {
@@ -424,9 +337,6 @@ class FileAdapter(private val onFileClick: (File) -> Unit) : RecyclerView.Adapte
                 "jsx" -> "⚛️"
                 "ts" -> "📘"
                 "tsx" -> "⚛️"
-                "json" -> "📋"
-                "html" -> "🌐"
-                "css" -> "🎨"
                 else -> "📄"
             }
             

@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         android:background="#2D2D30"
         android:gravity="center_vertical"
-        android:paddingHorizontal="16dp">
+        android:padding="16dp">
 
         <TextView
             android:layout_width="0dp"
@@ -27,18 +27,16 @@
             android:id="@+id/btnRun"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:text="▶ Run"
+            android:text="Run"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#007ACC"
             android:layout_marginEnd="8dp" />
 
         <Button
             android:id="@+id/btnNew"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:text="+ New"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#4CAF50" />
+            android:text="New"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 
@@ -63,7 +61,7 @@
                 android:textColor="#CCCCCC"
                 android:textSize="14sp"
                 android:gravity="center_vertical"
-                android:paddingHorizontal="12dp"
+                android:padding="12dp"
                 android:background="#2D2D30" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -74,44 +72,20 @@
 
         </LinearLayout>
 
-        <!-- Editor and Preview -->
+        <!-- Editor Container -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <!-- Tab Bar -->
-            <LinearLayout
-                android:id="@+id/tabBar"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal"
-                android:background="#2D2D30" />
-
-            <!-- Editor/Preview Container -->
-            <FrameLayout
-                android:id="@+id/contentContainer"
+            <!-- Editor -->
+            <WebView
+                android:id="@+id/codeEditor"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <!-- Code Editor WebView -->
-                <WebView
-                    android:id="@+id/codeEditor"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#1E1E1E" />
-
-                <!-- Preview WebView -->
-                <WebView
-                    android:id="@+id/previewWebView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#FFFFFF"
-                    android:visibility="gone" />
-
-            </FrameLayout>
+                android:layout_weight="1"
+                android:background="#1E1E1E" />
 
             <!-- Bottom Panel -->
             <LinearLayout
@@ -132,39 +106,50 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Console"
-                        android:textColor="#CCCCCC"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:textAllCaps="false" />
+                        android:textColor="#CCCCCC" />
 
                     <Button
                         android:id="@+id/btnPreviewTab"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Preview"
-                        android:textColor="#CCCCCC"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:textAllCaps="false" />
+                        android:textColor="#CCCCCC" />
 
                 </LinearLayout>
 
-                <!-- Console Output -->
-                <ScrollView
-                    android:id="@+id/consoleContainer"
+                <!-- Content Container -->
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#0C0C0C">
+                    android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/consoleOutput"
+                    <!-- Console Output -->
+                    <ScrollView
+                        android:id="@+id/consoleContainer"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="JS Pythonista Console\n> Ready for JavaScript/TypeScript/React development\n"
-                        android:textColor="#00FF00"
-                        android:textSize="12sp"
-                        android:fontFamily="monospace"
-                        android:padding="12dp" />
+                        android:layout_height="match_parent"
+                        android:background="#0C0C0C">
 
-                </ScrollView>
+                        <TextView
+                            android:id="@+id/consoleOutput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="JS Pythonista Console\nReady for JavaScript/TypeScript/React development\n"
+                            android:textColor="#00FF00"
+                            android:textSize="12sp"
+                            android:fontFamily="monospace"
+                            android:padding="12dp" />
+
+                    </ScrollView>
+
+                    <!-- Preview WebView -->
+                    <WebView
+                        android:id="@+id/previewWebView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#FFFFFF"
+                        android:visibility="gone" />
+
+                </FrameLayout>
 
             </LinearLayout>
 
