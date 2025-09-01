@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#1E1E1E">
+
+    <!-- Toolbar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="#2D2D30"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="JS Pythonista"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnRun"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="▶ Run"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#007ACC"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnNew"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="+ New"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4CAF50" />
+
+    </LinearLayout>
+
+    <!-- Main Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <!-- File Explorer -->
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#252526">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Files"
+                android:textColor="#CCCCCC"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="12dp"
+                android:background="#2D2D30" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fileList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#252526" />
+
+        </LinearLayout>
+
+        <!-- Editor and Preview -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Tab Bar -->
+            <LinearLayout
+                android:id="@+id/tabBar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="#2D2D30" />
+
+            <!-- Editor/Preview Container -->
+            <FrameLayout
+                android:id="@+id/contentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <!-- Code Editor WebView -->
+                <WebView
+                    android:id="@+id/codeEditor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#1E1E1E" />
+
+                <!-- Preview WebView -->
+                <WebView
+                    android:id="@+id/previewWebView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+            <!-- Bottom Panel -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical"
+                android:background="#1E1E1E">
+
+                <!-- Panel Tabs -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:background="#2D2D30">
+
+                    <Button
+                        android:id="@+id/btnConsoleTab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Console"
+                        android:textColor="#CCCCCC"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/btnPreviewTab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Preview"
+                        android:textColor="#CCCCCC"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+
+                <!-- Console Output -->
+                <ScrollView
+                    android:id="@+id/consoleContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#0C0C0C">
+
+                    <TextView
+                        android:id="@+id/consoleOutput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="JS Pythonista Console\n> Ready for JavaScript/TypeScript/React development\n"
+                        android:textColor="#00FF00"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:padding="12dp" />
+
+                </ScrollView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
