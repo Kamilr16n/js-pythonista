@@ -1,155 +1,356 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#1E1E1E">
-
-    <!-- Toolbar -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:background="#2D2D30"
-        android:gravity="center_vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="JS Pythonista"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnRun"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="Run"
-            android:textColor="#FFFFFF"
-            android:layout_marginEnd="8dp" />
-
-        <Button
-            android:id="@+id/btnNew"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="New"
-            android:textColor="#FFFFFF" />
-
-    </LinearLayout>
+    android:background="@color/ide_background">
 
     <!-- Main Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!-- File Explorer -->
+        <!-- Top Toolbar -->
         <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="#252526">
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:background="@color/ide_toolbar"
+            android:gravity="center_vertical"
+            android:elevation="4dp"
+            android:padding="8dp">
+
+            <ImageButton
+                android:id="@+id/btnMenu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_sort_by_size"
+                android:tint="@color/ide_text_bright"
+                android:contentDescription="Menu" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="Files"
-                android:textColor="#CCCCCC"
-                android:textSize="14sp"
-                android:gravity="center_vertical"
-                android:padding="12dp"
-                android:background="#2D2D30" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="JS Pythonista"
+                android:textColor="@color/ide_text_bright"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginStart="12dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fileList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#252526" />
+            <ImageButton
+                android:id="@+id/btnRun"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_run_bg"
+                android:src="@android:drawable/ic_media_play"
+                android:tint="@android:color/white"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Run Code" />
+
+            <ImageButton
+                android:id="@+id/btnStop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_media_pause"
+                android:tint="@color/ide_text"
+                android:contentDescription="Stop" />
+
+            <ImageButton
+                android:id="@+id/btnSettings"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_preferences"
+                android:tint="@color/ide_text"
+                android:contentDescription="Settings" />
 
         </LinearLayout>
 
-        <!-- Editor Container -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+        <!-- File Tabs -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/ide_panel"
+            android:scrollbars="none">
 
-            <!-- Editor -->
-            <WebView
-                android:id="@+id/codeEditor"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="#1E1E1E" />
-
-            <!-- Bottom Panel -->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="vertical"
-                android:background="#1E1E1E">
+                android:id="@+id/tabContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
 
-                <!-- Panel Tabs -->
+        </HorizontalScrollView>
+
+        <!-- Main Editor Area -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <!-- File Explorer (Collapsible) -->
+            <LinearLayout
+                android:id="@+id/fileExplorerPanel"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/ide_panel"
+                android:visibility="visible">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"
-                    android:background="#2D2D30">
+                    android:background="@color/ide_toolbar"
+                    android:gravity="center_vertical"
+                    android:padding="8dp">
 
-                    <Button
-                        android:id="@+id/btnConsoleTab"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Console"
-                        android:textColor="#CCCCCC" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Files"
+                        android:textColor="@color/ide_text_bright"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/btnPreviewTab"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Preview"
-                        android:textColor="#CCCCCC" />
+                    <ImageButton
+                        android:id="@+id/btnNewFile"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:src="@android:drawable/ic_menu_add"
+                        android:tint="@color/ide_text"
+                        android:contentDescription="New File" />
+
+                    <ImageButton
+                        android:id="@+id/btnNewFolder"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:src="@android:drawable/ic_menu_agenda"
+                        android:tint="@color/ide_text"
+                        android:contentDescription="New Folder" />
 
                 </LinearLayout>
 
-                <!-- Content Container -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fileList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/ide_panel"
+                    android:padding="4dp" />
+
+            </LinearLayout>
+
+            <!-- Editor Container -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Code Editor -->
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
 
-                    <!-- Console Output -->
-                    <ScrollView
-                        android:id="@+id/consoleContainer"
+                    <WebView
+                        android:id="@+id/codeEditor"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#0C0C0C">
+                        android:background="@color/ide_background" />
+
+                    <!-- Loading Overlay -->
+                    <LinearLayout
+                        android:id="@+id/loadingOverlay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/ide_background"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <ProgressBar
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:indeterminateTint="@color/ide_accent" />
 
                         <TextView
-                            android:id="@+id/consoleOutput"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="JS Pythonista Console\nReady for JavaScript/TypeScript/React development\n"
-                            android:textColor="#00FF00"
-                            android:textSize="12sp"
-                            android:fontFamily="monospace"
-                            android:padding="12dp" />
+                            android:layout_marginTop="16dp"
+                            android:text="Loading Editor..."
+                            android:textColor="@color/ide_text"
+                            android:textSize="14sp" />
 
-                    </ScrollView>
-
-                    <!-- Preview WebView -->
-                    <WebView
-                        android:id="@+id/previewWebView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#FFFFFF"
-                        android:visibility="gone" />
+                    </LinearLayout>
 
                 </FrameLayout>
+
+                <!-- Bottom Panel -->
+                <LinearLayout
+                    android:id="@+id/bottomPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:orientation="vertical"
+                    android:background="@color/ide_background"
+                    android:visibility="visible">
+
+                    <!-- Panel Tabs -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:background="@color/ide_toolbar">
+
+                        <Button
+                            android:id="@+id/btnConsoleTab"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Console"
+                            android:textColor="@color/ide_text_bright"
+                            android:background="@drawable/tab_selected_bg"
+                            android:textAllCaps="false"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btnPreviewTab"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Preview"
+                            android:textColor="@color/ide_text"
+                            android:background="@drawable/tab_unselected_bg"
+                            android:textAllCaps="false"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btnProblemsTab"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Problems"
+                            android:textColor="@color/ide_text"
+                            android:background="@drawable/tab_unselected_bg"
+                            android:textAllCaps="false"
+                            android:textSize="12sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <ImageButton
+                            android:id="@+id/btnClosePanel"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="8dp"
+                            android:background="?android:attr/selectableItemBackgroundBorderless"
+                            android:src="@android:drawable/ic_menu_close_clear_cancel"
+                            android:tint="@color/ide_text"
+                            android:contentDescription="Close Panel" />
+
+                    </LinearLayout>
+
+                    <!-- Panel Content -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <!-- Console -->
+                        <LinearLayout
+                            android:id="@+id/consolePanel"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:background="@color/console_bg">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="32dp"
+                                android:orientation="horizontal"
+                                android:background="@color/ide_toolbar"
+                                android:gravity="center_vertical"
+                                android:padding="8dp">
+
+                                <ImageButton
+                                    android:id="@+id/btnClearConsole"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                                    android:src="@android:drawable/ic_menu_delete"
+                                    android:tint="@color/ide_text"
+                                    android:contentDescription="Clear Console" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="8dp"
+                                    android:text="Console Output"
+                                    android:textColor="@color/ide_text"
+                                    android:textSize="12sp" />
+
+                            </LinearLayout>
+
+                            <ScrollView
+                                android:id="@+id/consoleScrollView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/console_bg">
+
+                                <TextView
+                                    android:id="@+id/consoleOutput"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="JS Pythonista Console v1.0\nReady for JavaScript/TypeScript/React development\n\n"
+                                    android:textColor="@color/console_text"
+                                    android:textSize="12sp"
+                                    android:fontFamily="monospace"
+                                    android:padding="12dp"
+                                    android:textIsSelectable="true" />
+
+                            </ScrollView>
+
+                        </LinearLayout>
+
+                        <!-- Preview -->
+                        <WebView
+                            android:id="@+id/previewWebView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/white"
+                            android:visibility="gone" />
+
+                        <!-- Problems Panel -->
+                        <LinearLayout
+                            android:id="@+id/problemsPanel"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:background="@color/ide_background"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No problems detected"
+                                android:textColor="@color/ide_text"
+                                android:textSize="14sp"
+                                android:padding="16dp"
+                                android:gravity="center" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -157,4 +358,110 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    <!-- Navigation Drawer -->
+    <LinearLayout
+        android:id="@+id/navigationDrawer"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:background="@color/ide_panel">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:orientation="vertical"
+            android:background="@color/ide_accent"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JS Pythonista"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JavaScript/TypeScript/React IDE"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:alpha="0.8" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/menuNewProject"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="📁 New Project"
+                android:textColor="@color/ide_text_bright"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/menuOpenProject"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="📂 Open Project"
+                android:textColor="@color/ide_text_bright"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/menuExamples"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="📚 Examples"
+                android:textColor="@color/ide_text_bright"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackground" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/ide_toolbar"
+                android:layout_margin="8dp" />
+
+            <TextView
+                android:id="@+id/menuSettings"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="⚙️ Settings"
+                android:textColor="@color/ide_text_bright"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackground" />
+
+            <TextView
+                android:id="@+id/menuAbout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="ℹ️ About"
+                android:textColor="@color/ide_text_bright"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackground" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

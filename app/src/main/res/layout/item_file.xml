@@ -1,29 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="36dp"
+    android:layout_height="40dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:paddingHorizontal="12dp"
+    android:padding="8dp"
     android:background="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/fileIcon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:text="📄"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:gravity="center" />
 
-    <TextView
-        android:id="@+id/fileName"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginStart="8dp"
-        android:text="file.js"
-        android:textColor="#CCCCCC"
-        android:textSize="13sp"
-        android:singleLine="true" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fileName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="file.js"
+            android:textColor="@color/ide_text_bright"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/fileSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1.2 KB"
+            android:textColor="@color/ide_text"
+            android:textSize="11sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnFileMenu"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_more"
+        android:tint="@color/ide_text"
+        android:contentDescription="File Menu"
+        android:visibility="gone" />
 
 </LinearLayout>
